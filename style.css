@@ -640,6 +640,10 @@ height: 30px;
   height:auto;
   box-shadow: 0px 0px 20px 1px rgb(0 0 0 / 18%);
   background-attachment: fixed;
+ 
+ background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .section_about_tile, .about_my{
   color: var(--color-wtite);
