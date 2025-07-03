@@ -396,7 +396,7 @@ body::-webkit-scrollbar-thumb{
     --fontManrope:'Manrope', monospace;
     --fontJostSemiBold:'Jost-SemiBold', monospace;
     --modal-bg:rgb(151 151 151 / 75%);
-    --background-color-section:rgb(234 121 73 / 75%);
+    --background-color-section:rgb(34 33 32 / 75%);
   }
   /* modal */
   .modal{
