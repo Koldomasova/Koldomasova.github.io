@@ -1,0 +1,780 @@
+
+ @font-face {
+  font-family: 'Jost';
+  src: url(font/Jost-Regular.woff2);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+ }
+ @font-face {
+  font-family: 'Manrope';
+  src: url(font/Manrope-Regular.woff2);
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+ }
+ @font-face {
+  font-family: 'Nunito';
+  src: url(font/Nunito-Bold.woff2);
+  font-weight: 600;
+  font-style:normal;
+  font-display:swap;
+ }
+  @font-face {
+  font-family: 'Jost-SemiBold';
+  src: url(font/Jost-SemiBold.woff2);
+  font-weight: 600;
+  font-style:normal;
+  font-display:swap;
+ }
+
+/**
+  Нормализация блочной модели
+ */
+ *,
+ ::before,
+ ::after {
+   box-sizing: border-box;
+ }
+ /**
+   Убираем внутренние отступы слева тегам списков,
+   у которых есть атрибут class
+  */
+ :where(ul, ol):where([class]) {
+   padding-left: 0;
+ }
+ /**
+   Убираем внешние отступы body и двум другим тегам,
+   у которых есть атрибут class
+  */
+ body,
+ :where(blockquote, figure):where([class]) {
+   margin: 0;
+ }
+ /**
+   Убираем внешние отступы вертикали нужным тегам,
+   у которых есть атрибут class
+  */
+ :where(
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6,
+   p,
+   ul,
+   ol,
+   dl
+ ):where([class]) {
+   margin-block: 0;
+ }
+ 
+ :where(dd[class]) {
+   margin-left: 0;
+ }
+ :where(fieldset[class]) {
+   margin-left: 0;
+   padding: 0;
+   border: none;
+ }
+ /**
+   Убираем стандартный маркер маркированному списку,
+   у которого есть атрибут class
+  */
+ :where(ul[class]) {
+   list-style: none;
+ }
+ :where(address[class]) {
+   font-style: normal;
+ }
+ 
+ /**
+   Обнуляем вертикальные внешние отступы параграфа,
+   объявляем локальную переменную для внешнего отступа вниз,
+   чтобы избежать взаимодействие с более сложным селектором
+  */
+ p {
+   --paragraphMarginBottom: 24px;
+ 
+   margin-block: 0;
+ }
+ /**
+   Внешний отступ вниз для параграфа без атрибута class,
+   который расположен не последним среди своих соседних элементов
+  */
+ p:where(:not([class]):not(:last-child)) {
+   margin-bottom: var(--paragraphMarginBottom);
+ }
+
+ /**
+   Упрощаем работу с изображениями и видео
+  */
+ img,
+ video {
+   display: block;
+   max-width: 100%;
+   height: auto;
+ }
+ /**
+   Наследуем свойства шрифт для полей ввода
+  */
+ input,
+ textarea,
+ select,
+ button {
+   font: inherit;
+ }
+ html {
+   /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+   height: 100%;
+   /**
+     Убираем скачок интерфейса по горизонтали
+     при появлении / исчезновении скроллбара
+    */
+   scrollbar-gutter: stable;
+ }
+ /**
+   Плавный скролл
+  */
+ html,
+ :has(:target) {
+   scroll-behavior: smooth;
+ }
+ body {
+   /**
+     Пригодится в большинстве ситуаций
+     (когда, например, нужно будет "прижать" футер к низу сайта)
+    */
+   min-height: 100%;
+   /**
+     Унифицированный интерлиньяж
+    */
+   line-height: 1.5;
+   background-color:var(--color-bg);
+   color: var(--color-body);
+    transition: background-color 0.5s ease;
+ }
+ body::-webkit-scrollbar{
+  width: 10px;
+}
+body::-webkit-scrollbar-track{
+  background-color:var(--color-bg);
+  border-radius: 30px;
+}
+body::-webkit-scrollbar-thumb{
+  background-color:var(--color-orange);
+  border-radius: 30px;
+}
+
+ /**
+   Нормализация высоты элемента ссылки при его инспектировании в DevTools
+  */
+ a:where([class]) {
+   display: inline-flex;
+ }
+ a{
+  text-decoration: none;
+  color: currentColor;
+  font-family: var(--fontNunito);
+  font-size: 1rem;
+  cursor: pointer;
+ }
+ /**
+   Курсор-рука при наведении на элемент
+  */
+ button,
+ label {
+   cursor: pointer;
+ }
+ /**
+   Приводим к единому цвету svg-элементы
+   (за исключением тех, у которых уже указан
+   атрибут fill со значением 'none' или начинается с 'url')
+  */
+ :where([fill]:not(
+   [fill="none"],
+   [fill^="url"]
+ )) {
+   fill: currentColor;
+ }
+ /**
+   Приводим к единому цвету svg-элементы
+   (за исключением тех, у которых уже указан
+   атрибут stroke со значением 'none')
+  */
+ :where([stroke]:not(
+   [stroke="none"],
+   [stroke^="url"]
+ )) {
+   stroke: currentColor;
+ }
+ /**
+   Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+  */
+ svg * {
+   transition-property: fill, stroke;
+ }
+ /**
+   Приведение рамок таблиц в классический 'collapse' вид
+  */
+ :where(table) {
+   border-collapse: collapse;
+   border-color: currentColor;
+ }
+ /**
+   Удаляем все анимации и переходы для людей,
+   которые предпочитают их не использовать
+  */
+ @media (prefers-reduced-motion: reduce) {
+   *,
+   ::before,
+   ::after {
+     animation-duration: 0.01ms !important;
+     animation-iteration-count: 1 !important;
+     transition-duration: 0.01ms !important;
+     scroll-behavior: auto !important;
+   }
+ }
+  h1{
+    font-size: clamp(2rem,4vw,5rem);
+    font-family:var(--fontNunito);
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 90%;
+  }
+  h2{
+    font-size:clamp(2rem,3vw,4rem) ;
+    font-family: var(--fontNunito);
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 100%;
+  }
+  h3{
+    font-family:var(--fontNunito);
+    font-size: 25px;
+  }
+  h4{
+    font-family:var(--fontManrope);
+    font-size: 25px;
+  }
+  h5{
+    font-family: var(--fontJost);
+  }
+  h6{
+    font-family: var(--fontManrope);
+  }
+  p{
+    font-family: var(--fontManrope);
+    font-size:clamp(1rem,1.5vw,2rem);
+    color: var(--color-grey);
+    line-height: 1.2em;
+  }
+  .button{
+    background: none;
+    border-radius: 15px;
+    border: var(--border-orange-button);
+    color: #fff;
+    font-family: var(--fontJostSemiBold);
+    font-optical-sizing: auto;
+    font-size: 22px;
+  color: var(--color-orange);
+  transition: all 0.3s cubic-bezier(0.35, -0.18, 1, 0.21), background-color .3s linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:10px 20px;
+  }
+  .button:hover{
+    color:var(--color-wtite);
+    background: var(--color-orange);
+    fill: var(--color-wtite);
+    transition: all 0.3s cubic-bezier(0.35, -0.18, 1, 0.21),background-color .2s linear;
+  }
+  .button_icons{
+    width:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-orange);
+    fill: var(--color-orange);
+  }
+  .button_tg:hover{
+    color: var(--color-wtite);
+    fill: var(--color-wtite);
+  }
+  .line{
+    background-color: var(--color-line);
+   height: 1px;
+  }
+.title{
+  border-bottom: 5px solid var(--color-body );
+  padding-bottom: 10px;
+}
+.title_card_line{
+  border-bottom: 1px solid var(--color-body);
+  padding-bottom: 2px;
+  column-gap: 15px;
+  font-size: 12px;
+}
+.title_card_line:hover{
+  color: var(--color-orange);
+  border-bottom: 1px solid var(--color-orange);
+}
+.card_box{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: pointer;
+    box-shadow: 0px 0px 20px 1px rgb(0 0 0 / 40%)
+  }
+  .effect_card:hover{
+    box-shadow: none;
+    transform: translate(0, 5px);
+  }
+  .baner_card_figure{
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    color: var(--color-wtite);
+    font-family: var(--fontManrope);
+    background: var(--color-grey);
+    padding: 8px 16px;
+    font-size: clamp(9px,1vw,20px);
+    border-radius:11px;
+  }
+  .img_card_figure{
+    position: relative;
+    max-width: 100%;
+    height: 100%;
+  }
+  .img_card{
+    border: var(--border-grey-card);
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+  }
+  .darkstyle{
+    --color-bg:#323131;
+    --color-toogle:#ffffff;
+    --color-body:#ffffff;
+    --color-orange:#EA7949;
+    --card-black:#373535;
+    --card-body:#373535;
+    --color-wtite:#ffffff;
+}
+  :root{
+    --color-bg:#ffffff;
+    --color-toogle:#323131;
+    --color-orange:#EA7949;
+    --color-body:#323131;
+
+    --color-wtite:#ffffff;
+    --color-black:#323131;
+    --color-line:#F3F3F3;
+    --color-grey:#9a9a9a;
+    --border-write-button:2px solid #FFFFFF;
+    --border-black-button:2px solid #424445;
+    --border-orange-button:2px solid #EA7949;
+    --border-grey-button:3px solid #808080;
+    --border-grey-card:2px solid #8D8484;
+
+    --card-body:#fbfbfb;
+
+    --border-line:1px solid #C7C7C7;
+    --font-size30:30px;
+    --fontJost: 'Jost', monospace;
+    --fontNunito:'Nunito', monospace;
+    --fontManrope:'Manrope', monospace;
+    --fontJostSemiBold:'Jost-SemiBold', monospace;
+    --modal-bg:rgb(151 151 151 / 75%);
+    --background-color-section:rgb(234 121 73 / 75%);
+  }
+  /* modal */
+  .modal{
+    background-color:var(--modal-bg);
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 1001;
+    backdrop-filter: blur(90px);
+    --webkit-backdrop-filter: blur(90px);
+    justify-content: center;
+    align-items: center;
+  }
+  .my_form_modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .modal-body{
+    display: flex;
+    justify-content: center;
+    width: min-content;
+    background-color: var(--color-bg);
+    padding: 50px 50px;
+    border-radius: 30px;
+    position: relative;
+  }
+  .modal-body, .my_form_body_mobal{
+    row-gap: 5px;
+  }
+  .close{
+    background-color:var(--color-body) ;
+    width: 35px;
+    height: 5px;
+    position: absolute;
+    right: 40px;
+    transform: rotate(45deg);
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  .close::after{
+    content: '';
+    background-color:var(--color-body) ;
+    width: 35px;
+    height: 5px;
+    position: absolute;
+    transform: rotate(90deg);
+    border-radius: 30px;
+  }
+.container{
+  max-width: calc(1440px - 100px*2);
+  width: 100%;
+  margin-left:auto;
+  margin-right: auto;
+  padding-inline: 30px;
+}
+.section_mtop{
+  padding-block: 120px;
+}
+.header_menu{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 65px;
+  align-items: center;
+}
+.header_menu_list{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 32px;
+  font-weight: 600;
+}
+.header_menu_link{
+  font-size: var(--font-size30);
+  font-family: var(--fontJostSemiBold);
+  transition: all 0.3s cubic-bezier(0.35, -0.18, 1, 0.21), background-color .3s linear;
+  letter-spacing: 0.09em;
+}
+.header_menu_link:hover{
+color: var(--color-orange);
+transition: all 0.3s cubic-bezier(0.35, -0.18, 1, 0.21), background-color .3s linear;
+-webkit-background-clip: text;
+background-clip: text;
+}
+.toggle{
+  margin-right: 20px;
+}
+.toggle-input{
+  height: 50px;
+  width: 110px;
+  background-color: var(--color-toogle);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 30px;
+  border: 1px solid var(--border-grey-button);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.toggle-input:active{
+    transform: scale(0.98);
+}
+.icons-ball{
+  position: relative;
+  width: 35px;
+  height: 35px;
+  background-color:var(--color-orange);
+  border: 1px solid var(--border-grey-button);
+  border-radius: 30px;
+  box-shadow: 1px 1px 7px 1px var(--color-black);
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+}
+.icon-night{
+right: 14px;
+transform: rotateZ(40deg);
+}
+.icon-sun{
+     left: 14px;
+}
+.icon-toggle{
+position: absolute;
+width: 25px;
+height: 30px;
+}
+/* main */
+.main{
+  margin-top: 60px;
+}
+.section_first{
+  margin-bottom: 50px;
+  min-height: calc(100% - 56px);
+}
+.main_first{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.title_first_content{
+  position: relative;
+  z-index: 2;
+}
+.img_first_content{
+  position: relative;
+}
+.img_logo_first{
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-45deg);
+}
+.img_first_bg{
+  width: 400px;
+  height: 400px;
+  background:var(--color-orange);
+  border-radius: 150px;
+  transform: rotate(45deg);
+  position: relative;
+  left: -30px;
+}
+.button_first{
+  display: flex;
+  column-gap: 15px;
+}
+
+.button_title_first{
+  width: 235px;
+}
+.button_contact{
+  margin-top: 40px;
+}
+.title_firts{
+  margin-bottom: 25px;
+  position: relative;
+  z-index:1;
+}
+.title_subtitle{
+  margin-bottom: 25px;
+  margin-top: 15px;
+}
+/* project */
+.project_button_block{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+.title_text_center{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  row-gap: 50px;
+  align-items: center;
+}
+.bt_project{
+  width: 230px;
+  display: flex;
+  gap: 15px;
+}
+.bt_project:active{
+  color: var(--color-wtite);
+    background: var(--color-orange);
+}
+.project_cards{
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  justify-content: space-between;
+  margin-top: 105px;
+  gap: 36px;
+}
+.project_cards.active{
+  display: grid;
+}
+.effect_card{
+  background:var(--card-body);
+  border-radius: 30px;
+  padding: 30px 55px;
+  transition: all 0.3s cubic-bezier(0.35, -0.18, 1, 0.21);
+}
+.card_description{
+  font-size:16px;
+  padding-bottom: 9px;
+}
+.card_info_button{
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+/* section_about_my */
+.section_about_my{
+  background: linear-gradient(top, var( --background-color-section), rgba(0, 0, 0, 0.75)), url(img/img_my_about.jpg) center / cover no-repeat;
+  background: -moz-linear-gradient(top,var( --background-color-section), rgba(0, 0, 0, 0.75)), url(img/img_my_about.jpg) center / cover no-repeat;
+  background: -webkit-linear-gradient(top, var( --background-color-section), rgba(0, 0, 0, 0.75)), url(img/img_my_about.jpg) center / cover no-repeat;
+  height:auto;
+  box-shadow: 0px 0px 20px 1px rgb(0 0 0 / 18%);
+  background-attachment: fixed;
+}
+.section_about_tile, .about_my{
+  color: var(--color-wtite);
+   border-bottom: 3px solid var(--color-wtite);
+}
+.section_about_info{
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+.ab_my_icons{
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  color: var(--color-wtite);
+}
+.ab_my_icons::before{
+  display: flex;
+}
+.me::before{
+  content: url(icons/icons8-learning.png);
+}
+.info:before{
+  content:url(icons/icons8-PC.png);
+}
+.learning::before{
+  content: url(icons/icons8-student.png);
+}
+
+/* section_my_skills */
+.my_skills_boxs{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 55px;
+  justify-content: center;
+}
+.box{
+  width: 248.38px;
+  height: 250px;
+  padding: 40px 55px;
+}
+.box .text_box{
+  font-size: 25px;
+  font-family: var(--fontJost);
+}
+/* section_contact container */
+.section_contact{
+  display: flex;
+  column-gap: 25px;
+}
+.contact_block_left_info{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+#footer , .my_form_body{
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.form_input{
+  background-color: var(--color-bg);
+  border: 4px solid var(--color-grey);
+  border-radius:10px;
+  width: 600px;
+  height: 55px;
+  color: var(--color-body);
+  padding: 12px 16px;
+  font-family: var(--fontManrope);
+  font-size: 18px;
+}
+.form_textarea{
+  height: 160px;
+}
+.form_lab_modal{
+  font-size: 15px;
+}
+.form_lab{
+  font-family: var(--fontNunito);
+  color: var(--color-grey);
+}
+.form_lab_fotter{
+  font-size: 30px;
+  padding-bottom: 3px;
+}
+.contact_button_form{
+  display: flex;
+  gap: 20px;
+}
+.text{
+  font-family: var(--fontJost);
+}
+.footer-copyright{
+  font-size: 1rem;
+  font-family: var(--fontManrope);
+}
+.title_contact {
+  font-size: 30px;
+}
+.contact_item{
+  display: flex;
+  flex-wrap: wrap;
+  column-gap:5px;
+}
+.contact_item, .span_contact{
+  font-size: 30px;
+}
+.span_contact{
+  border-bottom: 1px solid var(--color-grey);
+  font-family: var(--fontManrope);
+  transition: all 0.3s cubic-bezier(0.35, -0.18, 1, 0.21);
+}
+.span_contact:hover{
+  color: var(--color-orange);
+  border-bottom: 1px solid var(--color-orange);
+}
+.button_up{
+  position: fixed;
+  display: none;
+  bottom: 15px;
+  right: 15px;
+  z-index: 1000;
+  background-color: var(--color-orange);
+  color: var(--color-wtite);
+  fill: var(--color-wtite);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+ .button_up:hover{
+    background-color: var(--color-orange);
+  }
+  .button_up.show{
+    display: flex;
+    opacity: 1;
+  }

@@ -1,0 +1,103 @@
+@media(max-width:1920px){
+
+}
+@media(max-width:1650px){
+    .modal-body{
+        width: 100%;
+        height: 100%;
+        align-items: center;
+    }
+    .close{
+        top: 50px;
+    }
+    .my_form_modal{
+        margin-top: 67px;
+    }
+    .my_form_body_mobal{
+        row-gap: 5px;
+    }
+    .my_form_modal, .my_form_body_mobal{
+        font-size: 15px;
+    }
+    .form_textarea_modal{
+        height: 90px;
+    }
+    .button_contact_modal{
+        margin-top: 20px;
+    }
+    .modal-body{
+        border-radius: 0;
+    }
+}
+@media(max-width:1270px){
+    .header_menu{
+        flex-wrap: wrap;
+        
+    }
+    .main_first{
+        flex-direction: column;
+        row-gap: 15px;
+    }
+    .img_first_content{
+        top: 20px;
+    }
+    .section_contact{
+        flex-direction: column;
+        row-gap: 25px;
+    }
+    .form_input{
+        width: auto;
+    }
+}
+@media(max-width:1000px){
+    .project_cards{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .img_card_info{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .img_first_bg{
+        width: 250px;
+    height: 250px;
+    border-radius: 85px;
+    left: 0;
+    }
+}
+@media(max-width:535px){
+    .card_info_button{
+        flex-direction: column;
+        gap: 15px;
+
+    }
+    /* .card_info_button_link{
+        font-size: 12px;
+    } */
+    .contact_item, .span_contact{
+        font-size: 18px;
+    }
+    .title_contact{
+        font-size: 20px;
+    }
+    .img_first_bg{
+        width: 150px;
+        height: 150px;
+        border-radius: 50px;
+    }
+    .button{
+        width: auto;
+    }
+    .effect_card{
+        padding: 30px 20px;
+    }
+    .header_menu{
+        justify-content: space-between;
+    }
+    .text_my_form_modal{
+        width: auto;
+    }
+
+}
+
